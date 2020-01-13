@@ -1,5 +1,5 @@
 <footer>
-    {{- if .IsHome -}}
+    {{ if or (.IsHome) ((eq .Kind "section") (eq .Type "posts")) }}
     {{ $pag := $.Paginator }}
     <div id="pagination">
         Hal.

@@ -2,7 +2,7 @@
 
 <section id="content">
     <h1 class="title" style="margin-bottom:0;">{{ .Title }}</h1>
-    {{- if ne .Type "page" -}}
+    {{ if eq .Type "posts" }}
     <small>{{ dateFormat "Mon, 02 Jan 06 15:04" .Date }}</small>
     {{ end }}
     {{ .Content }}
