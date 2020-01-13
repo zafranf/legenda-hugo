@@ -1,0 +1,15 @@
+{{ partial "header.html" . }}
+
+<section id="content">
+    {{ $pages := where .Site.RegularPages "Type" "in" .Site.Params.mainSections }}
+    {{ $paginator := .Paginate (where $pages "Params.hidden" "ne" true) }}
+    {{ range $paginator.Pages }}
+    <div class="list">
+        <h3 class="title">
+            &rarr; <a class="link" href="{{ .RelPermalink }}">{{.Title}}</a>
+        </h3>
+    </div>
+    {{ end }}
+</section>
+
+{{ partial "footer.html" . }}

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    {{- $title := ( .Title ) -}}
+    {{- $siteTitle := ( .Site.Title ) -}}
+    {{- if .IsHome -}}
+    <title>{{ $siteTitle }} {{ if isset .Site.Params "subtitle" }}- {{ .Site.Params.Subtitle }}{{ end }} </title>
+    {{- else -}}
+    <title>{{ $title }} | {{ $siteTitle }}</title>
+    {{- end -}}
+
+    {{- if isset .Site.Params "favicon" -}}
+    <link rel="icon" type="image/png" href={{ .Site.Params.favicon }} />
+    {{- end -}}
+
+    {{ with .OutputFormats.Get "rss" -}}
+    {{ printf `<link rel="%s" type="%s" href="%s" title="%s" />` .Rel .MediaType.Type .Permalink $.Site.Title | safeHTML }}
+    {{ end -}}
+
+    {{- template "_internal/opengraph.html" . -}}
+    {{- template "_internal/twitter_cards.html" . -}}
+
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet'>
+    <link href='{{ .Site.BaseURL }}css/style.css' rel='stylesheet'>
+    {{- if isset .Site.Params "customcss" -}}
+    {{- range .Site.Params.customCSS }}
+    {{- if or (hasPrefix . "http://") (hasPrefix . "https://") }}
+    <link href='{{ . }}' rel='stylesheet'>
+    {{- else }}
+    <link href='{{ $.Site.BaseURL }}{{ . }}' rel='stylesheet'>
+    {{- end }}
+    {{- end }}
+    {{- end }}
+</head>
+
+<body>
+    <fieldset>
+        <legend><a href="/">{{ $siteTitle }}</a></legend>
+        <header>
+            <div id="menu">
+                {{ range .Site.Menus.main }}
+                <a href="{{ .URL }}">{{ .Name }}</a>
+                {{ end }}
+            </div>
+            <div id="search">
+                <form action="/search">
+                    <input type="text" name="q" placeholder="Cari artikel..">
+                </form>
+            </div>
+            <div class="clearfix"></div>
+        </header>

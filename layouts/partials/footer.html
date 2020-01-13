@@ -1,0 +1,34 @@
+<footer>
+    {{- if .IsHome -}}
+    {{ $pag := $.Paginator }}
+    <div id="pagination">
+        Hal.
+        <input type="text" name="page" list="pages" placeholder="1">
+        <datalist id="pages">
+            {{ range $no := (seq $pag.TotalPages) }}
+            <option>{{ $no }}</option>
+            {{ end }}
+        </datalist> dari {{ $pag.TotalPages }}
+    </div>
+    {{ end }}
+
+    <div id="created_at" title="Dibuat pada..">
+        &copy; Desember 2019
+    </div>
+
+    <div class="clearfix"></div>
+</footer>
+</fieldset>
+
+{{- if isset .Site.Params "customjs" -}}
+{{- range .Site.Params.customJS }}
+{{- if or (hasPrefix . "http://") (hasPrefix . "https://") }}
+<script src="{{ . }}"></script>
+{{- else }}
+<script src="{{ $.Site.BaseURL }}{{ . }}"></script>
+{{- end }}
+{{- end }}
+{{- end }}
+</body>
+
+</html>
