@@ -3,13 +3,34 @@
     {{ $pag := $.Paginator }}
     <div id="pagination">
         Hal.
-        <input type="text" name="page" list="pages" placeholder="1">
+        <input id="paginator" type="text" name="page" list="pages" placeholder="1">
         <datalist id="pages">
             {{ range $no := (seq $pag.TotalPages) }}
             <option>{{ $no }}</option>
             {{ end }}
         </datalist> dari {{ $pag.TotalPages }}
     </div>
+
+    <script>
+        let el = document.getElementById("paginator");
+        el.addEventListener("keypress", function (e) {
+            if (e.keyCode == 13) {
+                changePage(el.value);
+            }
+        });
+        el.addEventListener("change", function (e) {
+            changePage(el.value);
+        });
+
+        let paths = window.top.location.pathname.split('/');
+        if (paths.length > 2 && paths[1] == 'page') {
+            el.placeholder = paths[2];
+        }
+
+        function changePage(val) {
+            window.top.location = '/page/' + val;
+        }
+    </script>
     {{ end }}
 
     <div id="created_at" title="Dibuat pada..">
